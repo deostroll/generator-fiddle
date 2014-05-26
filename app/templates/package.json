@@ -1,0 +1,10 @@
+{
+    "name": "package",
+    "version": "0.0.0",
+    "devDependencies": {
+        "express": "~3.4.8",
+        "grunt-express": "~1.2.1",
+        "grunt-contrib-watch": "~0.5.2",
+        "time-grunt": "~0.2.1"
+    }
+}

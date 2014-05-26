@@ -1,0 +1,36 @@
+{
+  "name": "generator-fiddle",
+  "version": "0.0.1",
+  "description": "Yeoman generator to create a local Web fiddling environment",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "behrangsa/generator-fiddle",
+  "author": {
+    "name": "Behrang Saeedzadeh",
+    "email": "behrangsa@gmail.com",
+    "url": "https://github.com/behrangsa"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "~0.16.0",
+    "chalk": "~0.4.0",
+    "yosay": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  }
+}
