@@ -1,11 +1,6 @@
 'use strict';
 
-//var util = require('util');
-//var path = require('path');
 var yeoman = require('yeoman-generator');
-//var yosay = require('yosay');
-//var chalk = require('chalk');
-
 
 var FiddleGenerator = yeoman.generators.Base.extend({
     init: function () {
@@ -23,8 +18,10 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         this.mkdir('app/images');
         this.mkdir('app/styles');
         this.mkdir('app/scripts');
+        this.mkdir('app/less');
 
-        this.copy('index.html', 'app/index.html');
+        this.copy('app/index.html', 'app/index.html');
+        this.copy('app/less/application.less', 'app/less/application.less');
         this.copy('express.js', 'express.js');
         this.copy('Gruntfile.js', 'Gruntfile.js');
         this.copy('package.json', 'package.json');

@@ -8,19 +8,32 @@ module.exports = function (grunt) {
         yeoman: {
             app: 'app'
         },
-
+        less: {
+            compile: {
+                files: {
+                    'app/styles/application.css': 'app/less/application.less'
+                }
+            }
+        },
         watch: {
             livereload: {
                 options: {
                     livereload: 35729
                 },
                 files: [
-                    '<%= yeoman.app %>/fonts/**/*.{eot, svg, ttf, woff}',
-                    '<%= yeoman.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= yeoman.app %>/scripts/**/*.js',
-                    '<%= yeoman.app %>/styles/**/*.css',
-                    '<%= yeoman.app %>/*.html'
+                    'app/fonts/**/*.{eot, svg, ttf, woff}',
+                    'app/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
+                    'app/scripts/**/*.js',
+                    'app/styles/**/*.css',
+                    'app/*.html'
                 ]
+            },
+            less: {
+                options: {
+                    atBegin: true
+                },
+                files: ['app/less/*.less'],
+                tasks: ['less:compile']
             }
         },
 
@@ -31,7 +44,7 @@ module.exports = function (grunt) {
                     hostname: '*',
                     bases: 'app',
                     livereload: true,
-                    serverreload: true,
+                    serverreload: false,
                     server: 'express.js'
                 }
             }
@@ -40,9 +53,10 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
     grunt.registerTask('server', [
         'express',
-        'express-keepalive'
+        'watch'
     ]);
 };
