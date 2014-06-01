@@ -27,6 +27,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         this.copy('package.json', 'package.json');
         this.copy('bower.json', 'bower.json');
         this.copy('bowerrc', '.bowerrc');
+        this.copy('README.md', 'README.md');
     },
 
     projectFiles: function () {

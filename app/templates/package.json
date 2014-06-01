@@ -1,6 +1,8 @@
 {
-    "name": "package",
+    "name": "my-fiddle",
     "version": "0.0.1",
+    "description": "My Fiddle",
+    "private": true,
     "devDependencies": {
         "express": "~3.4.8",
         "grunt-express": "~1.2.1",

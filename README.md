@@ -10,8 +10,6 @@ It creates a project that contains an HTML page that is configured with:
 
 ## Getting Started
 
-### What is Yeoman?
-
 First, install [Yeoman](http://yeoman.io) if you haven't already
 
 ```bash
