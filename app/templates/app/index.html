@@ -4,21 +4,31 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>Fiddle</title>
+        <title><%= workFolder %> Fiddle</title>
 
-        <link rel="stylesheet" href="bower_components/HTML5-Reset/assets/css/reset.css">
-        <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery.ui.theme.css">
-        <link rel="stylesheet" href="styles/application.css">
-
-        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- bower:css -->
+        <!-- endbower -->
+        <link rel="stylesheet" href="styles/style.css">
     </head>
 
     <body>
-        <!-- BEGIN:MARKUP -->
-
-        <!-- END:MARKUP -->
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/jquery-ui/ui/jquery.ui.core.js"></script>
+      <div class="container">
+        <h1><%= workFolder %> - Fiddle</h1>
+        <p>
+          <%= fiddleDesc %>
+        </p>
+        <hr/>
+        <h3>Install your favourite libs</h3>
+        <p>
+          For e.g. to install jQuery UI Framework...
+        </p>
+        <pre>
+          bower install jqueryui --save
+        </pre>
+        <h2>All setup...now go fiddle</h2>
+      </div>
+      <!-- bower:js -->
+      <!-- endbower -->
+      <script src="scripts/main.js"></script>
     </body>
 </html>
