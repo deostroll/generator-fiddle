@@ -6,13 +6,33 @@ var FiddleGenerator = yeoman.generators.Base.extend({
     init: function () {
         this.pkg = require('../package.json');
 
-        this.on('end', function () {
-            if (!this.options['skip-install']) {
-                this.installDependencies();
-            }
-        });
+        this.devDependencies = [
+            //commn dependencies
+            'grunt',
+            'grunt-contrib-connect',
+            'grunt-contrib-watch'
+        ];
     },
-
+    prompting: {
+      var done = this.async();
+      var prompts = [
+        {
+          name: 'workFolder',
+          type: 'input',
+          message: 'Enter fiddle name',
+          default: this.appname
+        },
+        {
+          name: 'fiddleDesc',
+          type: 'input',
+          message: 'What do you want to fiddle with?'
+        }
+      ];
+      this.prompt(prompts, function(props){
+        this.props = props;
+        done();
+      }.bind(this));
+    }
     app: function () {
         this.mkdir('app');
         this.mkdir('app/images');
