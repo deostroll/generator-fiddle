@@ -13,20 +13,28 @@
 
     <body>
       <div class="container">
-        <h1><%= workFolder %> - Fiddle</h1>
-        <p>
-          <%= fiddleDesc %>
-        </p>
-        <hr/>
-        <h3>Install your favourite libs</h3>
-        <p>
-          For e.g. to install jQuery UI Framework...
-        </p>
-        <pre>
-          bower install jqueryui --save
-        </pre>
-        <h2>All setup...now go fiddle</h2>
-      </div>
+        <div class="float">
+          <img src="images/yeoman.png"/>
+        </div>
+        <div class="float">
+          <h1>Allo allo!</h1>
+          <p>
+            Your fiddle is prepared by Yeoman and ready for use.
+          </p>
+          <p>
+            To install any JavaScript or CSS libraries, use bower:
+            <br/>
+            <br/>
+            <span class="code">bower install jqueryui --save</span>
+            <br/>
+            <br/>
+            Modify code in app folder...save...and watch changes after livereload.
+          </p>
+          <hr class="faint"/>
+          <p>
+            With &hearts; from <a href="httsp://github.com/deostroll" class="a">@deostroll</a> &amp; <a href="https://github.com/behrangsa" class="a">@behrangsa</a>
+          </p>
+        </div>
       <!-- bower:js -->
       <!-- endbower -->
       <script src="scripts/main.js"></script>

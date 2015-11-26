@@ -1,7 +1,7 @@
 {
-    "name": "my-fiddle",
+    "name": "<%= workFolder %>",
     "version": "0.0.1",
-    "description": "My Fiddle",
+    "description": "<%= fiddleDesc %>",
     "private": true,
     "devDependencies": { }
 }
