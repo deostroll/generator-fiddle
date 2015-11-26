@@ -19,9 +19,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
           console.log(chalk.green('All done...'));
         });
     },
-    // echo: function() {
-    //   console.log(this.gruntfile);
-    // },
+
     prompting: function (){
       if(this.options['fast']) {
         this.props = {
