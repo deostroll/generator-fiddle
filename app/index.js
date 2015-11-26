@@ -124,12 +124,12 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         'grunt-wiredep'
       ]);
 
-      this.gruntfile.registerTask('default', ['runbower', 'connect', 'watch']);
-      var sourceRoot = this.sourceRoot();
-      var runbower = path.join(sourceRoot, 'misc', 'runbower.js')
-
-      this.gruntfile.prependJavaScript('grunt.registerTask(\'runbower\', runbower)');
-      this.gruntfile.prependJavaScript(this.fs.read(runbower));
+      this.gruntfile.registerTask('default', ['connect', 'watch']);
+      // var sourceRoot = this.sourceRoot();
+      // var runbower = path.join(sourceRoot, 'misc', 'runbower.js')
+      //
+      // this.gruntfile.prependJavaScript('grunt.registerTask(\'runbower\', runbower)');
+      // this.gruntfile.prependJavaScript(this.fs.read(runbower));
     },
     installStuff: function() {
       this.npmInstall(this.devDependencies, {saveDev: true});
