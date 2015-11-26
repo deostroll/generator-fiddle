@@ -88,10 +88,12 @@ var FiddleGenerator = yeoman.generators.Base.extend({
 
       var watchConfig = {
         'app': {
-          files: ['app/**/*.{html,js,css}', '!app/bower_components'],
+          files: ['app/**/*.{html,js,css}', '!app/bower_components/**/*.*'],
           options: {
             livereload: '<%= connect.options.livereload %>'
-          }
+          },
+          'bower' : ['bower.json'],
+          'task' : ['wiredep']
         }
       };
 
@@ -112,7 +114,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
 
       var wiredepConfig = {
         app: {
-          src: ['app/index.html']
+          src: ['app/*.html']
         }
       };
 
