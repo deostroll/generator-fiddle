@@ -4,21 +4,39 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>Fiddle</title>
+        <title><%= workFolder %> Fiddle</title>
 
-        <link rel="stylesheet" href="bower_components/HTML5-Reset/assets/css/reset.css">
-        <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery.ui.theme.css">
-        <link rel="stylesheet" href="styles/application.css">
-
-        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- bower:css -->
+        <!-- endbower -->
+        <link rel="stylesheet" href="styles/style.css">
     </head>
 
     <body>
-        <!-- BEGIN:MARKUP -->
-
-        <!-- END:MARKUP -->
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/jquery-ui/ui/jquery.ui.core.js"></script>
+      <div class="container">
+        <div class="float">
+          <img src="images/yeoman.png"/>
+        </div>
+        <div class="float">
+          <h1>Allo allo!</h1>
+          <p>
+            Your fiddle is prepared by Yeoman and ready for use.
+          </p>
+          <p>
+            To install any JavaScript or CSS libraries, use bower:
+            <br/>
+            <br/>
+            <span class="code">bower install jqueryui --save</span>
+            <br/>
+            <br/>
+            Modify code in app folder...save...and watch changes after livereload.
+          </p>
+          <hr class="faint"/>
+          <p>
+            With &hearts; from <a href="httsp://github.com/deostroll" class="a">@deostroll</a> &amp; <a href="https://github.com/behrangsa" class="a">@behrangsa</a>
+          </p>
+        </div>
+      <!-- bower:js -->
+      <!-- endbower -->
+      <script src="scripts/main.js"></script>
     </body>
 </html>

@@ -1,11 +1,6 @@
 {
-    "name": "package",
+    "name": "<%= workFolder %>",
     "version": "0.0.0",
     "dependencies": {
-        "jquery": "~2.1.x",
-        "jquery-ui": "~1.10.3",
-        "modernizr": "~2.7.1",
-        "HTML5-Reset": "~2.1.2"
     }
 }
-
