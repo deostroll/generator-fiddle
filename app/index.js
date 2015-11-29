@@ -16,9 +16,10 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         ];
 
         this.on('end', function(){
-          console.log(chalk.green('All done...'));
-          console.log();
-          console.log('type "grunt" to start a local web server');
+          // console.log(chalk.green('All done...'));
+          // console.log();
+          // console.log('type "grunt" to start a local web server');
+          this.log('All Done');
         });
     },
 
@@ -65,7 +66,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         this.copy('app/styles/style.css', 'app/styles/style.css');
         this.copy('app/scripts/main.js', 'app/scripts/main.js');
         this.copy('app/images/yeoman.png', 'app/images/yeoman.png');
-        
+
         // We'll compose our grunt file
         // this.copy('Gruntfile.js', 'Gruntfile.js');
 
@@ -131,6 +132,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
       this.gruntfile.registerTask('default', ['connect', 'watch']);
     },
     installStuff: function() {
+      if(this.options['skip-install'] === true) return;
       this.npmInstall(this.devDependencies, {saveDev: true});
     }
 });

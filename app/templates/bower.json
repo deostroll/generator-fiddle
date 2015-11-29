@@ -1,5 +1,6 @@
 {
     "name": "<%= workFolder %>",
+    "description" : "<%= fiddleDesc %>",
     "version": "0.0.0",
     "dependencies": {
     }
