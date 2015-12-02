@@ -22,25 +22,43 @@ describe('testing less inclusions', function () {
         if(err) { done(err); return; }
         testGlobal.dir = dir;
       })
-      .withArguments(['skip-install', 'less'])
+      .withArguments(['skip-install'])
+      .withOptions({ less: true })
       .withPrompts(prompts)
       .on('end', function(){
         done();
       });
   });
 
-  it('should create less folder and files', function(done) {
-    assert(['less', 'less/main.less']);
-    done();
+  it('should create less folder and files', function() {
+    assert(['less', 'less/main.less', 'less/h1.less']);
+
   });
 
-  it('should include less grunt packages', function(done) {
-    expect(testGlobal.dir).to.not.be.undefined;
-    expect(testGlobal.dir).to.be.a('string');
-    var file = path.join(testGlobal.dir, 'package.json');
-    var pkg = fetchJson(file);
-    expect(pkg.devDependencies).to.contain.keys('grunt-contrib-less')
-    done();
-  });
+  // it('should include less grunt packages', function() {
+  //   expect(testGlobal.dir).to.not.be.undefined;
+  //   expect(testGlobal.dir).to.be.a('string');
+  //   var file = path.join(testGlobal.dir, 'package.json');
+  //   var pkg = fetchJson(file);
+  //   expect(pkg.devDependencies).to.contain.keys('grunt-contrib-less');
+  // });
 
+  it('should have grunt watch task', function(){
+    var lessObj = {
+      less: {
+        files: ['app/less/*.less'],
+        tasks: ['less']
+      }
+    };
+    // expect(testGlobal.app._gruntConfig.watch).shallowDeepEqual(lessObj);
+    var generator = testGlobal.app.generator;
+    expect(generator).to.not.be.undefined;
+    expect(generator.gruntConfig).to.not.be.undefined;
+    expect(generator.options).to.be.an.object;
+    // expect(generator.options['less']).to.be.true;
+    // expect(generator.options['skip-install']).to.be.true;
+    expect(generator.gruntConfig.watch.less).to.not.be.undefined;
+    expect(generator.gruntConfig.watch.less).to.deep.equal(lessObj.less);
+
+  });
 });

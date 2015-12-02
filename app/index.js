@@ -4,6 +4,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var mkdirp = require('mkdirp');
 var FiddleGenerator = yeoman.generators.Base.extend({
+    cache: {},
     init: function () {
         this.pkg = require('../package.json');
         this.mkdir = mkdirp;
@@ -20,10 +21,12 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         });
 
         //holding grunt config - generator scope
-        this._gruntConfig = {};
+        this.gruntConfig = {};
         this._gruntNpmTasks = [];
     },
-
+    getConfig: function(val) {
+      return this[val];
+    },
     prompting: function () {
       if(this.options['fast']) {
         this.props = {
@@ -82,7 +85,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
     },
 
     gruntWatchConfig: function() {
-      this._gruntConfig.watch = {
+      this.gruntConfig.watch = {
         'app': {
           files: ['app/**/*.{html,js,css}', '!app/bower_components/**/*.*'],
           options: {
@@ -90,12 +93,13 @@ var FiddleGenerator = yeoman.generators.Base.extend({
           },
           'bower' : ['bower.json'],
           'task' : ['wiredep']
+        }
       };
       this._gruntNpmTasks.push('grunt-contrib-watch');
     },
 
     gruntWiredepConfig: function() {
-      this._gruntConfig.wiredep = {
+      this.gruntConfig.wiredep = {
         app: {
           src: ['app/*.html']
         }
@@ -104,7 +108,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
     },
 
     gruntConnectConfig: function() {
-      this._gruntConfig.connect = {
+      this.gruntConfig.connect = {
         options: {
           port: 3000,
           livereload: 4586,
@@ -118,13 +122,13 @@ var FiddleGenerator = yeoman.generators.Base.extend({
       this._gruntNpmTasks.push('grunt-contrib-connect');
     },
 
-    gruntConfig: function() {
+    configureGrunt: function() {
       var stringify = function(obj) {
         return JSON.stringify(obj, null, 2);
       };
 
-      for (var x in this._gruntConfig) {
-        this.gruntfile.insertConfig(x, stringify(this._gruntConfig[x]))
+      for (var x in this.gruntConfig) {
+        this.gruntfile.insertConfig(x, stringify(this.gruntConfig[x]))
       }
 
       this.gruntfile.loadNpmTasks(this._gruntNpmTasks);
@@ -133,9 +137,29 @@ var FiddleGenerator = yeoman.generators.Base.extend({
     },
 
     lessStuff: function() {
+      console.log('lessStuff...');
       if(this.options['less']) {
+        console.log('running...');
         this.mkdir('less');
         this.devDependencies.push('grunt-contrib-less');
+
+        //adding the wiredep task
+        this.gruntConfig.wiredep.less = {
+          dev: {
+            options: {
+              paths: ['app/less']
+            },
+            files: {
+              'app/styles/style.css' : 'app/less/main.css'
+            }
+          }
+        };
+
+        //adding the watch task
+        this.gruntConfig.watch.less = {
+          files: ['app/less/*.less'],
+          tasks: ['less']
+        };
       }
     },
 
