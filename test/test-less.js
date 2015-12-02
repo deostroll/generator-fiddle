@@ -10,7 +10,7 @@ var fetchJson = function(file) {
   return JSON.parse(data);
 };
 
-describe('testing less inclusions', function () {
+describe('less inclusions', function () {
   var prompts = {
     workFolder: 'temp',
     fiddleDesc: 'mocha test'
@@ -21,6 +21,7 @@ describe('testing less inclusions', function () {
       .inTmpDir(function(dir, err) {
         if(err) { done(err); return; }
         testGlobal.dir = dir;
+        // console.log(dir);
       })
       .withArguments(['skip-install'])
       .withOptions({ less: true })
@@ -31,19 +32,10 @@ describe('testing less inclusions', function () {
   });
 
   it('should create less folder and files', function() {
-    assert(['less', 'less/main.less', 'less/h1.less']);
-
+    assert.file(['app/less', 'app/less/main.less', 'app/less/h1.less']);
   });
 
-  // it('should include less grunt packages', function() {
-  //   expect(testGlobal.dir).to.not.be.undefined;
-  //   expect(testGlobal.dir).to.be.a('string');
-  //   var file = path.join(testGlobal.dir, 'package.json');
-  //   var pkg = fetchJson(file);
-  //   expect(pkg.devDependencies).to.contain.keys('grunt-contrib-less');
-  // });
-
-  it('should have grunt watch task', function(){
+  it('should have grunt watch tasks for less', function(){
     var lessObj = {
       less: {
         files: ['app/less/*.less'],
@@ -55,10 +47,27 @@ describe('testing less inclusions', function () {
     expect(generator).to.not.be.undefined;
     expect(generator.gruntConfig).to.not.be.undefined;
     expect(generator.options).to.be.an.object;
-    // expect(generator.options['less']).to.be.true;
-    // expect(generator.options['skip-install']).to.be.true;
     expect(generator.gruntConfig.watch.less).to.not.be.undefined;
     expect(generator.gruntConfig.watch.less).to.deep.equal(lessObj.less);
+  });
 
+  it('should have grunt less task configuration', function(){
+    var lessObj = {
+      dev: {
+        options: {
+          paths: ['app/less']
+        },
+        files: {
+          'app/styles/style.css' : 'app/less/main.css'
+        }
+      }
+    };
+    var generator = testGlobal.app.generator;
+    expect(generator.gruntConfig.less).to.deep.equal(lessObj);
+  });
+
+  it('should have the grunt default task include the less task', function(){
+    var generator = testGlobal.app.generator;
+    expect(generator.defaultGruntTask).to.contain('less');
   });
 });

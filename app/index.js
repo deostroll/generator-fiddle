@@ -22,7 +22,8 @@ var FiddleGenerator = yeoman.generators.Base.extend({
 
         //holding grunt config - generator scope
         this.gruntConfig = {};
-        this._gruntNpmTasks = [];
+        this.gruntNpmTasks = [];
+        this.defaultGruntTask = ['connect', 'watch'];
     },
     getConfig: function(val) {
       return this[val];
@@ -86,16 +87,18 @@ var FiddleGenerator = yeoman.generators.Base.extend({
 
     gruntWatchConfig: function() {
       this.gruntConfig.watch = {
-        'app': {
+        app: {
           files: ['app/**/*.{html,js,css}', '!app/bower_components/**/*.*'],
           options: {
             livereload: '<%= connect.options.livereload %>'
           },
-          'bower' : ['bower.json'],
-          'task' : ['wiredep']
+        },
+        bower: {
+          files: ['bower.json'],
+          tasks: ['wiredep']
         }
       };
-      this._gruntNpmTasks.push('grunt-contrib-watch');
+      this.gruntNpmTasks.push('grunt-contrib-watch');
     },
 
     gruntWiredepConfig: function() {
@@ -104,7 +107,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
           src: ['app/*.html']
         }
       };
-      this._gruntNpmTasks.push('grunt-wiredep');
+      this.gruntNpmTasks.push('grunt-wiredep');
     },
 
     gruntConnectConfig: function() {
@@ -119,32 +122,20 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         app: {
         }
       };
-      this._gruntNpmTasks.push('grunt-contrib-connect');
-    },
-
-    configureGrunt: function() {
-      var stringify = function(obj) {
-        return JSON.stringify(obj, null, 2);
-      };
-
-      for (var x in this.gruntConfig) {
-        this.gruntfile.insertConfig(x, stringify(this.gruntConfig[x]))
-      }
-
-      this.gruntfile.loadNpmTasks(this._gruntNpmTasks);
-
-      this.gruntfile.registerTask('default', ['connect', 'watch']);
+      this.gruntNpmTasks.push('grunt-contrib-connect');
     },
 
     lessStuff: function() {
-      console.log('lessStuff...');
+      // console.log('lessStuff...');
       if(this.options['less']) {
-        console.log('running...');
-        this.mkdir('less');
+        // console.log('running...');
+        this.mkdir('app/less');
+        this.copy('app/less/main.less', 'app/less/main.less');
+        this.copy('app/less/h1.less', 'app/less/h1.less');
         this.devDependencies.push('grunt-contrib-less');
 
         //adding the wiredep task
-        this.gruntConfig.wiredep.less = {
+        this.gruntConfig.less = {
           dev: {
             options: {
               paths: ['app/less']
@@ -160,7 +151,23 @@ var FiddleGenerator = yeoman.generators.Base.extend({
           files: ['app/less/*.less'],
           tasks: ['less']
         };
+
+        this.defaultGruntTask = ['less'].concat(this.defaultGruntTask);
       }
+    },
+
+    configureGrunt: function() {
+      var stringify = function(obj) {
+        return JSON.stringify(obj, null, 2);
+      };
+
+      for (var x in this.gruntConfig) {
+        this.gruntfile.insertConfig(x, stringify(this.gruntConfig[x]))
+      }
+
+      this.gruntfile.loadNpmTasks(this.gruntNpmTasks);
+
+      this.gruntfile.registerTask('default', this.defaultGruntTask);
     },
 
     installStuff: function() {
