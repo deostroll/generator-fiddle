@@ -133,7 +133,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         this.copy('app/less/main.less', 'app/less/main.less');
         this.copy('app/less/h1.less', 'app/less/h1.less');
         this.devDependencies.push('grunt-contrib-less');
-
+        this.gruntNpmTasks.push('grunt-contrib-less');
         //adding the wiredep task
         this.gruntConfig.less = {
           dev: {
@@ -141,7 +141,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
               paths: ['app/less']
             },
             files: {
-              'app/styles/style.css' : 'app/less/main.css'
+              'app/styles/style.css' : 'app/less/main.less'
             }
           }
         };

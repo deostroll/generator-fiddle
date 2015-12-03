@@ -12,7 +12,7 @@ describe('fiddle generator', function () {
     fiddleDesc: 'mocha test'
   };
 
-  beforeEach(function(done) {
+  before(function(done) {
       this.app = helpers.run(path.join(__dirname, '../app'))
         .inTmpDir(function(dir, err) {
           if(err) { done(err); return; }
@@ -60,5 +60,24 @@ describe('fiddle generator', function () {
     var pkg = JSON.parse(fs.readFileSync(pkgFile, 'utf8'));
     expect(pkg.name).to.equal(prompts.workFolder);
     done();
+  }.bind(this));
+
+  it('should have required devDependencies', function(){
+    var gen = this.app.generator;
+    expect(gen.devDependencies).to.contain(
+      'grunt',
+      'grunt-contrib-connect',
+      'grunt-contrib-watch',
+      'grunt-wiredep'
+    );
+  }.bind(this));
+
+  it('should load required grunt npm tasks', function(){
+    var gen = this.app.generator;
+    expect(gen.gruntNpmTasks).to.contain(
+      'grunt-contrib-connect',
+      'grunt-contrib-watch',
+      'grunt-wiredep'
+    );
   }.bind(this));
 });
