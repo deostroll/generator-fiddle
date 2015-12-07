@@ -8,13 +8,7 @@ var FiddleGenerator = yeoman.generators.Base.extend({
     init: function () {
         this.pkg = require('../package.json');
         this.mkdir = mkdirp;
-        this.devDependencies = [
-            //commn dependencies
-            'grunt',
-            'grunt-contrib-connect',
-            'grunt-contrib-watch',
-            'grunt-wiredep'
-        ];
+        this.devDependencies = ['grunt'];
 
         this.on('end', function(){
           this.log('All Done');
@@ -23,6 +17,10 @@ var FiddleGenerator = yeoman.generators.Base.extend({
         //holding grunt config - generator scope
         this.gruntConfig = {};
         this.gruntNpmTasks = [];
+        this.getAllDevDependencies = function() {
+            return this.devDependencies.concat(this.gruntNpmTasks);
+        };
+
         this.defaultGruntTask = ['connect', 'watch'];
     },
     getConfig: function(val) {
@@ -88,7 +86,8 @@ var FiddleGenerator = yeoman.generators.Base.extend({
     gruntWatchConfig: function() {
       this.gruntConfig.watch = {
         app: {
-          files: ['app/**/*.{html,js,css}', '!app/bower_components/**/*.*'],
+          files: ['./**/*.{html,js,css}', '!bower_components'],
+          cwd: 'app',
           options: {
             livereload: '<%= connect.options.livereload %>'
           },
@@ -171,8 +170,24 @@ var FiddleGenerator = yeoman.generators.Base.extend({
     },
 
     installStuff: function() {
-      if(this.options['skip-install'] === true) return;
-      this.npmInstall(this.devDependencies, {saveDev: true});
+
+      //getting the package.json
+      var pkg = this.fs.readJSON(this.destinationPath('package.json'));
+      var allDeps = this.getAllDevDependencies();
+      var devDependencies = {};
+      allDeps.forEach(function(x){
+        devDependencies[x] = pkg.devDependencies[x];
+      });
+
+      //assigning the new devDependencies
+      pkg.devDependencies = devDependencies;
+      pkg.name = this.props.workFolder;
+      pkg.description = this.props.fiddleDesc;
+      this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+
+      if(this.option['skip-install']) return;
+
+      this.installDependencies();
     }
 });
 

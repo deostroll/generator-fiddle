@@ -6,27 +6,27 @@ var helpers = yeoman.test, assert = yeoman.assert;
 var fs = require('fs');
 var expect = require('chai').expect;
 
-describe('fiddle generator', function () {
+describe('plain fiddle', function () {
   var prompts = {
     workFolder: 'temp',
     fiddleDesc: 'mocha test'
   };
-
+  var self = this;
   before(function(done) {
-      this.app = helpers.run(path.join(__dirname, '../app'))
+      self.app = helpers.run(path.join(__dirname, '../app'))
         .inTmpDir(function(dir, err) {
           if(err) { done(err); return; }
-          this.tempDir = dir;
+          self.tempDir = dir;
           // console.log('directory:', dir, typeof(dir));
-        }.bind(this))
+        })
         .withArguments(['skip-install'])
         .withPrompts(prompts)
         .on('end', function(){
           done();
         });
-  }.bind(this));
+  });
 
-  it('creates expected files', function (done) {
+  it('creates expected files', function () {
       var expected = [
           // add files you expect to exist here.
           '.jshintrc',
@@ -41,43 +41,83 @@ describe('fiddle generator', function () {
       ];
 
       assert.file(expected);
-      done();
-  }.bind(this));
 
-  it('modifies bower.json to reflect the work folder', function(done){
-    var tempDir = this.tempDir;
-    expect(tempDir).to.not.equal(undefined);
+  });
+
+  it('modifies bower.json to reflect the work folder', function(){
+    var tempDir = self.tempDir;
+    expect(tempDir).to.not.be.undefined;
     var bowerFile = path.join(tempDir, 'bower.json');
     var bower = JSON.parse(fs.readFileSync(bowerFile, 'utf8'));
     expect(bower.name).to.equal(prompts.workFolder);
-    done();
-  }.bind(this));
 
-  it('modifies package.json to reflect the work folder', function(done){
-    var tempDir = this.tempDir;
-    expect(tempDir).to.not.equal(undefined);
+  });
+
+  it('modifies package.json to reflect the work folder and all devDependencies', function(){
+    var tempDir = self.tempDir;
     var pkgFile = path.join(tempDir, 'package.json');
     var pkg = JSON.parse(fs.readFileSync(pkgFile, 'utf8'));
     expect(pkg.name).to.equal(prompts.workFolder);
-    done();
-  }.bind(this));
-
-  it('should have required devDependencies', function(){
-    var gen = this.app.generator;
-    expect(gen.devDependencies).to.contain(
+    var gen = self.app.generator;
+    // var allDeps = gen.getAllDevDependencies();
+    // var expectObjContains = expect(pkg.devDependencies).to.contain;
+    // expectObjContains.keys.apply(expectObjContains, allDeps);
+    expect(pkg.devDependencies).to.include.keys(
       'grunt',
-      'grunt-contrib-connect',
       'grunt-contrib-watch',
+      'grunt-contrib-connect',
       'grunt-wiredep'
     );
-  }.bind(this));
+
+  });
 
   it('should load required grunt npm tasks', function(){
-    var gen = this.app.generator;
+    var gen = self.app.generator;
     expect(gen.gruntNpmTasks).to.contain(
       'grunt-contrib-connect',
       'grunt-contrib-watch',
       'grunt-wiredep'
     );
-  }.bind(this));
+  });
+
+  it('should have grunt wiredep config', function(){
+    var config = {
+      app: {
+        src: ['app/*.html']
+      }
+    };
+    var gen = self.app.generator;
+    expect(gen.gruntConfig.wiredep).to.deep.equal(config);
+  });
+
+  it('should have grunt watch config', function(){
+    var config = {
+      bower: {
+        files: ['bower.json'],
+        tasks: ['wiredep']
+      },
+      app: {
+        files:['./**/*.{html,js,css}', '!bower_components'],
+        options: {
+          livereload: '<%= connect.options.livereload %>'
+        }
+      }
+    };
+  });
+
+  it('should have grunt connect config', function() {
+    var config = {
+      options: {
+        livereload:4586,
+        port:3000,
+        open: true,
+        base: ['app'],
+        hostname: 'localhost'
+      },
+      app: {}
+    };
+
+    var gen = self.app.generator;
+    expect(gen.gruntConfig.connect).to.deep.equal(config);
+  });
 });
