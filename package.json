@@ -1,6 +1,6 @@
 {
   "name": "generator-fiddle",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Yeoman generator to create a local Web fiddling environment",
   "license": "MIT",
   "main": "app/index.js",
