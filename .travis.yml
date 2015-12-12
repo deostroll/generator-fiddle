@@ -4,4 +4,4 @@ node_js:
 before_install:
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-fiddle' ]; then cd .. && eval "mv $currentfolder generator-fiddle" && cd generator-fiddle; fi
-
+  - npm install -g grunt-cli

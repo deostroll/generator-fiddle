@@ -1,7 +1,13 @@
 {
-    "name": "<%= workFolder %>",
+    "name": "basic-fiddle",
     "version": "0.0.1",
-    "description": "<%= fiddleDesc %>",
+    "description": "fiddle description",
     "private": true,
-    "devDependencies": { }
+    "devDependencies": {
+      "grunt": "^0.4.5",
+      "grunt-contrib-connect": "^0.11.2",
+      "grunt-contrib-less": "^1.1.0",
+      "grunt-contrib-watch": "^0.6.1",
+      "grunt-wiredep": "^2.0.0"
+    }
 }

@@ -2,12 +2,6 @@
 
 A [Yeoman](http://yeoman.io) generator for creating a local Web fiddling environment.
 
-It creates a project that contains an HTML page that is configured with:
-
-- jQuery and jQuery UI
-- Modernizer
-- HTML 5 Reset
-
 ## Getting Started
 
 First, install [Yeoman](http://yeoman.io) if you haven't already
@@ -28,6 +22,20 @@ Now to create a fiddling environment, create a project folder and inside that fo
 $ mkdir proj
 $ cd proj
 $ yo fiddle
+```
+
+This will create a basic project for you to work on. If you want to fiddle with some jQuery stuff (say), do a bower install:
+
+```bower install jquery --save```
+
+It automatically gets added into your `app/index.html`. So take care if that file has unsaved changes prior to the bower install process.
+
+## `--less` switch to include less
+
+While scaffolding a project include the `--less option` if you want to work with less.
+
+```
+yo fiddle --less
 ```
 
 ## License
